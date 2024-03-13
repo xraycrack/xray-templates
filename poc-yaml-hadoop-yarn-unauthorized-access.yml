@@ -1,0 +1,17 @@
+name: poc-yaml-hadoop-yarn-unauthorized-access
+manual: true
+transport: http
+rules:
+    r0:
+        request:
+            cache: true
+            method: GET
+            path: /ws/v1/cluster/info
+        expression: response.body.bcontains(b"clusterInfo") && response.body.bcontains(b"resourceManagerVersion") && response.body.bcontains(b"hadoopBuildVersion")
+expression: r0()
+detail:
+    links:
+        - https://xz.aliyun.com/t/6103
+    vulnerability:
+        id: CT-157873
+        level: critical
