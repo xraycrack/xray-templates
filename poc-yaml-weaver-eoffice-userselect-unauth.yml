@@ -1,0 +1,18 @@
+name: poc-yaml-weaver-eoffice-userselect-unauth
+manual: true
+transport: http
+rules:
+    r0:
+        request:
+            cache: true
+            method: GET
+            path: /UserSelect/
+        expression: response.status == 200 && response.body.bcontains(bytes("<title>选择人员</title>")) && response.body.bcontains(bytes("src=\"/UserSelect/top.php\""))
+expression: r0()
+detail:
+    author: z92g(https://github.com/z92g)
+    links:
+        - https://www.linuxlz.com/aqld/3115.html
+    vulnerability:
+        id: CT-515810
+        level: medium
